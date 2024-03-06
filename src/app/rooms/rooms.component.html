@@ -1,0 +1,28 @@
+<p id="unique">rooms works!</p>
+<h1>{{title}}</h1>
+<app-header></app-header>
+<!-- <div [hidden]="hidden">
+    <h2>Welcome tp {{hotelName}}</h2>
+</div> -->
+<div [ngSwitch]="role">
+    <div *ngSwitchCase="'Admin'">
+        Welcome Admin;
+    </div>
+    <div *ngSwitchCase="'User'">
+        Welcome User;
+    </div>
+    <div *ngSwitchDefault>
+        Welcome {{role}}
+    </div>
+</div>
+<h2>{{text}}</h2>
+<p *ngIf="room?.availableRooms">Anand</p>
+    <h3 [ngStyle]="{'color':'red'}">No of Hotel Rooms are:<span [innerText]="room.availableRooms"></span>
+    </h3>
+<button class="btn btn-primary" routerLink="/add">Add Button</button>
+<app-rooms-list *ngIf="hidden" (selectedRoom)="selectRoom($event)" [roomList]="rooms" [name]="text" ></app-rooms-list>
+<!-- <p *ngIf="()">Anand</p> -->
+<button (click)="toggle()" class="btn btn-primary">Toggle</button>
+<router-outlet></router-outlet>
+<router-outlet></router-outlet>
+

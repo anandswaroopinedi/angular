@@ -1,0 +1,804 @@
+Angular:
+
+Angular is an component based framework for building scalable apps
+it provides collection of frameworks like routing,forms etc
+
+Framework vs library:
+
+Frameworks contains different libraries and we can import them.
+we can also extend frameworks
+Ex: ExpressJS,Ionic,.Net,Angular
+
+Library perform specific operation
+we combine multiple libraries to build apps
+Ex:React,Lodash
+
+PWA(Progressive Web Application):It enables us to install app to the local and use it.
+
+TypeScript:
+ts-config:
+target:js version understand by all the browsers generally ES2015
+modue: It is where u run the js file os or browser etc
+
+SPA(Single Page Application):
+There is no need of sending url requests to the server and client side rendering is done through using frameworks.
+Angular have routing functionalit to create spa
+
+
+Installations:
+
+Instal Angular CLI: npm i @angular/cli -g
+ng version to check version
+
+We can create workspace with default application or empty workspace:
+ng new wrkspce_name
+ng new wrkspce_name --createApplication=false
+
+To generate application we use ng g app name
+
+tsconfig.spec.json-for writing unit testing script
+tsconfig.app.json to execute typescript file 
+Both these files extends the tsconfig.json file
+
+Package.josn -- to describe the packages that are used in the project
+
+MonoRepo:
+create and maintain many apps in same repo
+use libraries within the project
+deploy multi apps from same repo
+
+Change the angular.json like outputPath,index,browser etc
+
+To run the application:ng serve or ng serve -o
+
+In angular ngserve cmd works in an watch mode so it updates the changes automatically that occurs in src folder etc and it can't watch the package.json angular.json etc.
+
+@component
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  // template:`<h5>Hello World</h5><p>Anand</p>`,
+  styleUrl: './app.component.css'
+})
+
+Inline template in .ts file @component
+
+// templateUrl: './app.component.html',
+  template:'<h5>Hello World</h5>',
+
+For multiline we use ``;
+template:`<h5>Hello World</h5>
+	  <p>Anand</p>`
+
+we can also have inline styles 
+
+
+In general angular describes us to use the prefix name to avoid the conflicts of names declared by othrs or in packages etc
+
+
+ng g c componentName -- to create new component
+
+you should add the component to the app-component.html and u should import it in app-component.ts file as
+
+import { RoomsComponent } from './rooms/rooms.component';//imported RoomsComponent
+
+@Component({
+    selector: 'app-root',
+    standalone: true,
+    templateUrl: './app.component.html',
+    // template:`<h5>Hello World</h5><p>Anand</p>`,
+    styleUrl: './app.component.css',
+    imports: [RouterOutlet, RoomsComponent]//here also
+})
+
+Template Syntax
+
+Binding Syntax:
+1)Interpolation
+2)Propert Binding
+3)Event Binding
+
+1)Interpolation:
+
+synta {{var-Name}}
+
+<h2>Welcome to {{hotelName}}</h2>//binding the name using variable in ts
+export class RoomsComponent {
+  hotelName="Hilton Hotel";
+}//Name declared in the rooms component ts file
+
+2)Property Binding: It is used with only html properties
+
+syntax:[property]="var-name";//Box-syntax
+<h3>No of Hotel Rooms are:<span [innerText]="noOfRooms"></span></h3>
+
+3)Event Binding:To bind the events in the html to the ts functions
+
+<button (click)="toggle()" class="btn btn-primary"></button>
+here we use banana syntax() 
+
+export class RoomsComponent {
+  hotelName="Hilton Hotel";
+  noOfRooms=20;
+  hidden=false;
+  toggle()
+  {
+    this.hidden=!this.hidden
+  }
+}
+
+
+Directives:
+
+These are used to change the behaviour and appearance of DOM Element.
+These can implement all lifecycle hooks
+These cannot have template
+
+Two Types:
+
+Structural Directives
+Attribute "
+
+Built in Directives:
+
+1)ngIf
+2)ngFor
+3)ngSwitch
+4)ngClass
+5)ngStyle
+
+1)ngIf:
+
+you should include commonModule in the ts component
+import { CommonModule } from '@angular/common';
+imports: [CommonModule],
+
+<p *ngIf="room.availableRooms>0">Anand</p>
+
+2)ngFor:
+
+<div >
+    <table>
+        <tr *ngFor="let room of roomList;let e=even;let o=odd;let i=index">
+            <td>{{i}}</td>
+            <td>{{e?"even":"odd"}}</td>
+            <td>{{room.roomNumber}}</td>
+            <td>{{room.eminities}}</td>
+            <td>{{room.photo}}</td>
+            <td>{{room.price}}</td>
+            <td>{{room.checkInTime}}</td>
+        </tr> 
+    </table>
+    <ul *ngFor="let room of roomList">
+        <li>{{room.roomNumber}}</li>
+        <li>{{room.roomType}}</li>
+        <li>{{room.eminities}}</li>
+        <li>{{room.price}}</li>
+        <li>{{room.photo}}</li>
+    </ul>
+</div>
+
+Attribute directives modify the appearance or behavior of DOM elements. Structural directives add or remove elements from the DOM. All * directives are builtin and structural.
+
+3)ngSwaitch:
+
+<div [ngSwitch]="role">
+    <div *ngSwitchCase="'Admin'">
+        Welcome Admin;
+    </div>
+    <div *ngSwitchCase="'User'">
+        Welcome User;
+    </div>
+    <div *ngSwitchDefault>
+        Welcome {{role}}
+    </div>
+</div>
+
+Attribute Directives:
+
+4)ngClass
+
+[ngClass]="e ? 'eve':'od' "
+
+5)ngStyle
+
+[ngStyle]="{'color':'red'}"
+
+Pipes:
+
+they transform the data in the dom.
+they actually don't change the object but only presents for the user by transforming it.
+
+1)datePipe,uppercasePipe,lowercasePipe,percentage,currency,decimal,json,async,slice,number
+
+	<tr 
+            *ngFor="let room of roomList|slice:0:3;let e=even;let o=odd;let i=index">
+            <td>{{i}}</td>
+            <td>{{e?"even":"odd"}}</td>
+            <td>{{room.roomNumber}}</td>
+            <td>{{room.roomType|uppercase}}</td>
+            <td>{{room.eminities| lowercase}}</td>
+            <td>{{room.photo}}</td>
+            <td>{{room.price|currency:'INR'}}</td>
+            <td>{{room.checkInTime | date:'short'}}</td>
+            <td>{{room.rating| number:'1.0-0'}}</td>
+        </tr>
+
+Component Communication:
+1) Using @Input and @Output
+2)Using @ViewChild and @contentChild
+3)Using Services
+
+1)Using @Input and @Output:
+
+export class RoomsListComponent {
+  @Input() roomList:RoomList[]=[]
+} //this isthe dumb component becuase it shouldn't know anything like where it get data and it's work is to render.
+
+<app-rooms-list [roomList]="roomList"></app-rooms-list>//Tag is included in rooms component
+this is the smart component 
+..@Output:
+ @Output() selectedRoom=new EventEmitter<RoomList>();//EventEmitter is imported from @angular/core.
+
+selectRoom(room:RoomList)
+  {
+    this.selectedRoom.emit(room);
+  }
+<td>
+     <button class="btn btn-primary" (click)="selectRoom(room)">Select</button>
+</td>
+<app-rooms-list (selectedRoom)="selectRoom($event)" [roomList]="roomList"></app-rooms-list>
+ selectRoom(room:RoomList)
+  {
+    console.log(room);
+  }
+
+smart Component and dumb component or Parent and child component
+
+LifeCycle Hooks:
+
+From creating an instance to a destroying it is called as an lifecycle hook.
+ngOnInit():
+when we want to load any data in the view when the page loads then we write our logic in ngOnInit(),blocking code can't be written in constructor so we go for ngOnInit()
+
+changeDetection:
+
+It only applied on the child components in which there are no internal change and change happens from outside and new instance should be created when on every new change.
+changeDetection:ChangeDetectionStrategy.OnPush
+
+OnChanges:
+
+ngOnChanges
+
+This will only and only get called if there has been a reference change in any of the @Inputs bindings, regardless of the ChangeDetectionStrategy of the component.
+
+So if we mutate foods array like this :
+
+this.foods.push({value: 'steak-3', viewValue: 'Fish'});
+The ngOnChanges will not get called, but if we update the reference like this:
+
+this.foods = [{value: 'steak-3', viewValue: 'Fish'}];
+
+ngOnChanges(changes:SimpleChanges)
+  {
+    console.log(changes);
+    if(changes['name'])
+    {
+      console.log(this.name);
+    }
+    else if(changes['roomList'])
+    {
+      console.log(this.roomList);
+    }
+  }
+DoCheck also performs the same operation as the OnChanges
+ngOnChanges can detect the changes happened through parent element and we can perform operations through using these.
+
+ngAfterViewInit:
+
+  @ViewChild(HeaderComponent,{static : true})hc!:HeaderComponent;
+by default static is set to false becuase asynchrounous functions may run in the headerComponent so we don't initilize it.then we can access only through the ngAfterViewInit if we try to view in tht ngInit we get undefined
+
+ngAfterViewInit()
+  {
+    console.log(this.hc);
+  }
+
+Loading Component Dynamically:
+
+    <ng-template #user></ng-template>
+    @ViewChild('user',{read : ViewContainerRef})vcr!:ViewContainerRef;
+  ngAfterViewInit()
+  {
+    const refe=this.vcr.createComponent(RoomsComponent);
+  }
+
+Loading Element :
+
+<div #admin></div>
+@ViewChild('admin',{static:true})admin!:ElementRef
+  ngAfterViewInit()
+  {
+    const refe=this.vcr.createComponent(RoomsComponent);
+    refe.instance.noOfRooms=50;
+    this.admin.nativeElement.innerText="Hii";
+  }
+
+viewChildren:
+
+ngContent:
+
+<app-conatainer-comp>
+    <h1>App-Container-Component</h1>
+</app-conatainer-comp>
+
+<ng-content></ng-content>
+
+New Content is added from other components  when ng-content is initialized in the component html file.
+
+ngOnDestroy() gets called when a component is about to be destroyed.
+
+ngOnDestroy()
+  {
+    console.log("destroyed");
+  }
+
+Services:
+
+Services are used for storing all the reusable codes and these are accessed through components
+
+constructor(private serviceRooms:RoomsService)
+  {
+    this.rooms=serviceRooms.rooms
+  }
+
+when we create a service use it in different components that uses only one instance.If we want to create seperate instances for each component we should include the   providers:[RoomsService]
+we have @Self,@skip et
+
+constructor(@Self() roomService:RoomsService)
+  {
+    console.log(roomService.rooms);
+  }
+if self() is declared then parser checks for the service in the same file itself so we should include it 
+  providers:[RoomsService],
+
+@Host() decorator is used create the group the instances for the specific component so that the sub components use the particular service instance only.
+
+Value Providers:
+
+providedIn has 2 values root and any. root creates an single instance and any create different instances for different lazy modules and this can be usable when we want to override the configuarations in the lazy modules.
+
+localstorage.token.ts
+
+import {InjectionToken} from '@angular/core';
+export const LocalStorageItem=new InjectionToken('local storage',{
+    providedIn:'root',
+    factory() {
+        return localStorage; 
+    },
+})
+
+constructor(private serviceRooms:RoomsService,@Inject(LocalStorageItem) private localStorage:any)
+  {
+    this.rooms=serviceRooms.rooms
+    this.localStorage.setItem('anand',25);
+  }
+
+
+RxJS:
+
+push based architecture
+
+getData()-stream of data-(add data)when changes happened it happens in stream and all users are updated
+
+pull based architecture:
+
+getData()-add Data-getData()
+
+Observables: observer
+
+we get next,complete error streams
+
+ stream =new Observable((observer)=>{
+    observer.next('user1');
+    observer.next('user2');
+    observer.next('user3');
+    observer.complete();
+  })
+
+this.stream.subscribe({
+      next:(value)=> console.log(value),
+      complete:()=>console.log('comleted')
+    })
+
+RsJx Operators:
+sharereplay:
+can help us to cache the request and dont need to make call again.
+
+Async Pipe avoids the usage of subscription async can unsubscribe and read the data from stream 
+
+Interceptor:
+
+ng g interceptor name
+
+App_Intilizors:
+
+
+Angular Routers:
+
+provide the functionality to add routes.
+
+import { RoomsComponent } from './rooms/rooms.component';
+
+export const routes: Routes = [
+    {
+        path:'rooms',component:RoomsComponent
+    },
+    {
+        path: 'rooms-list',component:RoomsListComponent
+    },
+    {
+        path: 'header',component:HeaderComponent
+    }
+    ,
+    {
+        path:'',redirectTo:'/rooms',pathMatch:'full'    //Default URL
+    }
+];
+
+<router-outlet></router-outlet>
+
+we shouldn't use href in anchor tags becuase angular suports a spa but using href causes to multipage application.
+we should use routerLink
+
+<a [routerLink]="'rooms'">Rooms</a>
+<a [routerLink]="'rooms-list'">Rooms-List</a>
+<a [routerLink]="'header'">Header</a>
+
+router-outlet must be included becuase the angular looks for outlet and then it keeps all the router links below it.
+
+we can create the ui components by using angular material io
+it contains of predefained navbars tables etc which are bydefault responsive.
+
+Navigation schematic
+The navigation schematic will create a new component that includes a toolbar with the app name, and a responsive side nav based on Material breakpoints.
+
+ng generate @angular/material:navigation <component-name>
+
+<a mat-list-item routerLink="rooms">Rooms</a>
+      <a mat-list-item routerLink="rooms-list">Rooms-List</a>
+      <a mat-list-item routerLink="header">Header</a>
+
+
+{
+        path:'rooms/:id',component:RoomsBookingComponent
+},
+sending parameters over the link 
+<button class="btn btn-primary" [routerLink]="['/rooms',room.roomNumber]">Select Room</button>
+<button class="btn btn-primary" [routerLink]="['rooms',room.roomNumber]">Select Room</button> if we remove the / then the last url element is auto added and we get to an error page.
+ex:http://localhost:4200/rooms/rooms/1  here rooms are appended again.
+
+If we want to read parameters from the link then we should use the ActivatedRouter
+
+constructor(private router:ActivatedRoute)
+  {
+    this.router.params.subscribe((params)=>{
+      this.id=params['id'];
+      console.log(params['id']);
+    })
+  }
+
+we shouldn't use the subscribe 
+
+id$:Observable<Number>=this.router.params.pipe(
+    map(param=>param['id'])
+  );
+
+id$=this.router.paramMap.pipe(
+    map(param=>param.get('id'))
+  );
+
+A map that provides access to the required and optional parameters specific to a route. The map supports retrieving a single value with get() or multiple values with getAll().
+
+interface ParamMap {
+  keys: string[]
+has(name: string): boolean
+get(name: string): string | null
+getAll(name: string): string[]
+}
+
+Forms in angular:
+
+Template Driven Forms
+Reactive Forms
+
+Template Driven Forms:
+
+<form>
+    <!-- <div class="form form-group" -->
+    <div class="form-group py-2 ">
+        <input type="text" [(ngModel)]="room.roomNumber" class="form-control" name="roomNumbN" placeholder="room-number">
+    </div>
+    <div class="form-group py-2">
+        <input type="text" [(ngModel)]="room.roomType" class="form-control" name="roomType" placeholder="room-type">
+    </div>
+    <div class="form-group py-2">
+        <input type="text" [(ngModel)]="room.eminities" class="form-control" name="eminities" placeholder="eminities">
+    </div>
+    <div class="form-group py-2">
+        <input type="text" class="form-control" [(ngModel)]="room.photo" name="photo" placeholder="photo link">
+    </div>
+    <div class="form-group py-2">
+        <input type="number" class="form-control" [(ngModel)]="room.price" name="price" placeholder="price">
+    </div>
+    <div class="form-group py-2">
+        <input type="datetime" class="form-control" [(ngModel)]="room.checkInTime" name="checkInTime" placeholder="checkInTime">
+    </div>
+    <div>
+        <button class="btn btn-success">Submit</button>
+    </div>
+</form>
+</div>
+<router-outlet></router-outlet>
+
+[(ngModel)] is used for two-way binding as we change the form controls then the variables are automatically updated.
+
+two-binding is implicitly provided by the FormModel so we no need to use explicit packages.
+
+
+Validating Forms:
+
+<form #ngForms="ngForm">
+
+{{ngForms.dirty}}
+{{ngForms.pristine}}
+{{ngForms.valid}}
+{{ngForms.invalid}}
+{{ngForms.value}}
+
+<button [disabled]="ngForms.invalid" class="btn btn-success">Submit</button>
+
+Built In validators=min,max,minlength,maxlength,required,pattern
+
+Displaying Error Messages below Form Control
+
+    <div class="form-group py-2 ">
+        <input minlength="3" #roomNumberErr="ngModel" required type="text" [(ngModel)]="room.roomNumber" class="form-control" name="roomNumber" placeholder="room-number">
+        <div *ngIf="roomNumberErr.errors?.['minlength']">
+            <h1 class="alert alert-danger">Length should be atleast 3</h1>
+        </div>
+    </div>
+
+Pristine    -	The user has not modified the form control
+Dirty       -	The user has modified the form control
+Touched	    -   The user has interacted with the form control, e.g., by clicking or focusing on it.
+Untouched   -	The form control has not been interacted with by the user.
+Valid	    -   The form control's value meets the validation rules defined in the application.
+Invalid	    -   The form control's value does not meet the validation rules defined in the application.
+
+Creating new directives:
+
+ng g d name
+
+import { Directive, ElementRef, HostListener, OnInit, Renderer2 } from '@angular/core';
+@Directive({
+  selector: '[appHover]',
+  standalone: true,
+})
+export class HoverDirective implements OnInit {
+  constructor( private element: ElementRef,private renderer:Renderer2) {
+    console.log(this.element);
+   }
+   ngOnInit()
+   {
+    // this.element.nativeElement.style.backgroundColor='red';
+    this.renderer.setStyle(this.element.nativeElement,'backgroundColor','red');
+   }
+   @HostListener('mouseenter')onMouseEnter(){
+    this.renderer.setStyle(this.element.nativeElement,'backgroundColor','white');
+   }
+   @HostListener('mouseleave') onMouseLeave(){
+    this.renderer.setStyle(this.element.nativeElement,'backgroundColor','red');
+   }
+}
+
+we should include the HoverDirective in thelogin ts file.
+
+<input appHover class="form-control my-4" type="email" name="email" [(ngModel)]="email" placeholder="email">
+
+selector is used to fetch the element
+
+Creating new validation:
+
+import { Directive } from '@angular/core';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+
+@Directive({
+  selector: '[appEmailValidator]',
+  standalone:true,
+  providers:[
+    {provide:NG_VALIDATORS,useExisting:EmailValidatorDirective,multi:true},
+  ],
+})
+export class EmailValidatorDirective implements Validator {
+
+  constructor() { }
+  validate(control:AbstractControl):ValidationErrors|null{
+    const value=control.value as string;
+    if(value.includes('true')){
+      return {
+        invalidEmail:true
+      }
+    }
+    return null;
+  }
+}
+
+
+<div>
+        <input #emailcontrol="ngModel" appEmailValidator appHover class="form-control my-4" type="email" name="email" [(ngModel)]="email" placeholder="email">
+    </div>
+    <div>
+        {{emailcontrol.errors|json}}
+    </div>
+
+
+Creating Route:
+
+Angular provides Router through which we can navigate to the other pages.
+
+constructor(private route:Router)
+{
+
+}
+
+login()
+{
+  if(this.email==="admin@gmail.com" && this.password==="admin")
+  {
+    this.route.navigate(['/rooms','add']);
+  }
+}
+we also has navigateByUrl('/rooms/add')
+
+
+Creating module:
+
+ng g m name --flat=true//for creating a module ex: header for using reuasable component we dont need routing
+ng g m name --routing --flat=true//for also creating routes ex:rooms contains more than one component
+
+in the ngmodule:
+
+Declarations: In this array, you can add components, directives, and pipes.
+Imports: other modules whose exported classes and services are needed in this module
+Exports: The subset of declarations that should be reusable in the component templates of other Ngmodules.
+Providers: creators of services that this ngModules contributes to the global collection of services.
+Bootstrap: the main application view (entry point), called a root component, hosts all other application views. (Note):- only the root ngModule should set the bootstrap property.
+
+One component can be registered in one module 
+
+--flat puts the file in src/app instead of its own folder.
+
+
+Nested Routing and child routes:
+
+{
+        path:'rooms',component:RoomsComponent,
+        children:[
+            {
+                path:':id',component:RoomsBookingComponent
+            }]
+    },
+
+Lazy Loading:
+
+Allow to split the code at module level.
+load code when user need it
+reduce main bundle size
+
+we use it for the modules which are of large size and not frequently used.
+
+{
+        path:'rooms/add',
+        loadChildren:()=>import('./rooms/rooms-add/rooms-add.component').then((m)=>m.RoomsAddComponent)
+},
+
+const routes: Routes = [
+  {
+    path: '',
+    component: ItemsComponent
+  }
+];
+
+we can also create the lazy loaded module using the command :
+ng g m booking --route=booking --routing --module:app 
+
+and we can also create a module and then we can create component in it without lazyloading:
+
+ng g m search
+ng g c search
+
+
+Routing Guards:
+
+canActivate
+CanActivateChild
+CanDeactivate
+canLoad
+
+Reactive Forms:
+
+creating forms:
+
+use form control class to create form controls
+use form group to group multiple controls.
+use formbuilder to build complex forms.
+
+<form class="form-group p-4" [formGroup]="bookingForm" (ngSubmit)="addbook()">
+<input formControlName="guestEmail"  class="form-control my-4" type="email" name="guestEmail"  placeholder="guestEmail" required>
+
+formGroup is to bind the form through the ts
+formControlName is to bind the form element
+only one formGroup should exisis
+
+we should import FormGroup,ReactiveForm
+
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
+constructor(private fb:FormBuilder)
+  {
+    this.bookingForm=this.fb.group({
+      roomId: new FormControl(''),
+      guestEmail:[''],
+      checkinDate:[''],
+      checkoutDate:[''],
+      bookingStatus:[''],
+      address:this.fb.group({
+        addressLine1:[''],
+        zipCode:[''],
+        city:[''],
+        state:[''],
+        country:['']
+      }),
+      guests:this.fb.array([this.fb.group(
+       { guestName:[''],
+        age:['']
+      })])
+    })
+   }
+Dyanamic Form controls:
+
+ get guests()
+  {
+    return this.bookingForm.get('guests') as FormArray;
+  }
+
+
+addGuest()
+  {
+    this.guests.push({ guestName:[''],
+    age:['']
+  })
+  }
+
+<div formArrayName="guests">
+        <div *ngFor="let guest of guests.controls;let i=index">
+            <div [formGroupName]="i">
+                <div>
+                    <input matInput formControlName="guestName" type="text" class="form-control my-4" name="guestName" placeholder="guestName">
+                </div>
+                <div>
+                    <input matInput formControlName="age"  class="form-control my-4" type="number" name="age" placeholder="age">
+                </div>
+            </div>
+        </div>
+    </div>
+addControl and removeControl are used to add new form controls to the form.
+
+ removeGuest(i:number)
+  {
+    this.guests.removeAt(i);
+  }

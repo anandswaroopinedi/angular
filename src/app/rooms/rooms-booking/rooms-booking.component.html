@@ -1,0 +1,67 @@
+<h1>{{bookingForm.value|json}}</h1>
+<form class="form-group p-4" [formGroup]="bookingForm" (ngSubmit)="addbook()">
+    <div>
+        <input formControlName="roomId"  class="form-control my-4" type="number" name="roomId" placeholder="room Id">
+    </div>
+    <div>
+        <input formControlName="guestEmail"  class="form-control my-4" type="email" name="guestEmail"  placeholder="guestEmail" required>
+    </div>
+    <div>
+        <input formControlName="checkinDate" type="date" class="form-control my-4" name="checkinDate" placeholder="Check-In-Date">
+    </div>
+    <div>
+        <input formControlName="checkoutDate" type="date" class="form-control my-4" name="checkoutDate" placeholder="Check-Out-Date">
+    </div>
+    <div>
+        <input formControlName="bookingStatus" type="text" class="form-control my-4" name="bookingStatus" placeholder="bookingStatus">
+    </div>
+    <div formGroupName="address" class="my-5">
+        <mat-accordion class="example-headers-align" multi>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Address
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+          
+              <mat-form-field>
+                <input matInput formControlName="addressLine1" type="text" class="form-control" name="address" placeholder="Address Line1">
+              </mat-form-field>
+          
+              <mat-form-field>
+                <input matInput formControlName="zipCode" type="number" class="form-control" name="zipcode" placeholder="Zipcode">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput formControlName="city" type="text" class="form-control " name="city" placeholder="city">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput formControlName="state" type="text" class="form-control" name="state" placeholder="state">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput formControlName="country" type="text" class="form-control" name="country" placeholder="country">
+              </mat-form-field>
+            </mat-expansion-panel>
+            </mat-accordion>
+            <button mat-raised-button type="button" class="m-2 px-4" color="accent" (click)="addGuest()">Add</button>
+    </div>
+    <div formArrayName="guests">
+        <div *ngFor="let guest of guests.controls;let i=index">
+            <div [formGroupName]="i">
+                <div>
+                    <input matInput formControlName="guestName" type="text" class="form-control my-4" name="guestName" placeholder="guestName">
+                </div>
+                <div>
+                    <input matInput formControlName="age"  class="form-control my-4" type="number" name="age" placeholder="age">
+                </div>
+                <div>
+                    <button mat-raised-button type="button" class="m-2 px-4" color="accent" (click)="removeGuest(i)">Remove</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>      
+        <button mat-raised-button color="primary" class="mx-5">Primary</button>
+    </div>
+</form>
+<router-outlet></router-outlet>
